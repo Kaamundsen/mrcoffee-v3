@@ -1,26 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-/** Standard farge for strek-ikoner (unntak: Miljøfyrtårn-blad i stats-raden). */
+/** Standard farge for strek-ikoner. */
 const ICON_BRASS = 'text-[#C89F80]';
 
 // --- Helpers ---
-
-const StatsMiljofyrtarnLeafIcon = () => (
-  <svg
-    className="mb-1 h-10 w-10 shrink-0 text-chinese-black"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-  </svg>
-);
 
 const NavbarMenuIcon = () => (
   <svg className={`h-[1.8rem] w-[1.8rem] shrink-0 ${ICON_BRASS}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -128,9 +112,19 @@ const Button = ({
 
 // --- Navbar ---
 
+const productSubLinks = [
+  { name: 'Kaffemaskiner', href: '#kaffemaskiner' },
+  { name: 'Kaffetraktere', href: '#kaffetraktere' },
+  { name: 'Vannmaskiner', href: '#vannmaskiner' },
+  { name: 'Alle produkter', href: '#alle-produkter' },
+] as const;
+
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -138,40 +132,91 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = [
-    { name: 'Hjem', href: '#' },
-    { name: 'Maskiner', href: '#produkter' },
-    { name: 'Produkter', href: '#produkter' },
-    { name: 'Om oss', href: '#om-oss' },
+  useEffect(() => {
+    if (!mobileOpen) setMobileProductsOpen(false);
+  }, [mobileOpen]);
+
+  const linkClass = `text-sm uppercase tracking-widest transition-colors hover:text-antique-brass ${
+    isScrolled ? 'text-chinese-black' : 'text-white'
+  }`;
+
+  const simpleLinks = [
     { name: 'Service', href: '#service' },
+    { name: 'Om oss', href: '#om-oss' },
+    { name: 'Bærekraft', href: '#baerekraft' },
     { name: 'Bestilling', href: '#kontakt' },
     { name: 'Kontakt', href: '#kontakt' },
-  ];
+  ] as const;
 
   return (
     <>
       <nav
-        className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 ${
+        className={`fixed left-0 top-0 z-50 w-full overflow-visible transition-all duration-300 ${
           isScrolled
-            ? 'border-b border-white/10 bg-chinese-black/95 py-4 shadow-[0_4px_24px_rgba(0,0,0,0.35)] backdrop-blur-md'
-            : 'bg-transparent py-6'
+            ? 'border-b border-cream-dark/60 bg-cream/95 pt-[11px] pb-[6px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] backdrop-blur-md'
+            : 'border-b border-transparent bg-transparent pt-6 pb-[19px]'
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between overflow-visible px-6">
           <a href="#">
             <img
-              src="/images/MrCoffee_Logo.svg"
+              src={
+                isScrolled
+                  ? '/images/MrCoffee_Logo-m-tekst-sort.svg'
+                  : '/images/MrCoffee_Logo-m-tekst-hvit.svg'
+              }
               alt="MrCoffee"
-              className={`w-auto transition-[height] duration-300 ${isScrolled ? 'h-[4.2rem]' : 'h-[4.8rem]'}`}
+              className={`w-auto transition-[height,transform] duration-300 ${isScrolled ? 'h-[3.717rem] translate-y-[calc(5%-3px)]' : 'h-[4.213rem] -translate-y-[3px]'}`}
             />
           </a>
-          <div className="hidden items-center gap-[2.1rem] lg:flex">
-            {links.map((l) => (
+          <div className="hidden items-center gap-[2.1rem] overflow-visible pt-[3px] lg:flex">
+            <a href="#" className={linkClass}>
+              Hjem
+            </a>
+            <div
+              className="relative"
+              data-open={productsDropdownOpen}
+              onMouseEnter={() => setProductsDropdownOpen(true)}
+              onMouseLeave={() => setProductsDropdownOpen(false)}
+            >
               <a
-                key={l.name}
-                href={l.href}
-                className="text-[15.6px] uppercase tracking-widest text-white transition-colors hover:text-antique-brass"
+                href="#produkter"
+                className={`${linkClass} ${productsDropdownOpen ? 'text-antique-brass' : ''}`}
+                aria-haspopup="true"
+                aria-expanded={productsDropdownOpen}
               >
+                Produkter
+              </a>
+              {/* Bridge div: always present, fills the visual gap so mouse stays in hover zone */}
+              <div className="absolute left-0 top-full z-50 w-52 pt-3">
+                <AnimatePresence>
+                  {productsDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      className="overflow-hidden rounded-xl border border-white/10 bg-chinese-black/80 py-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
+                      role="menu"
+                      aria-label="Produkter"
+                    >
+                      {productSubLinks.map((s) => (
+                        <a
+                          key={s.name}
+                          href={s.href}
+                          role="menuitem"
+                          className="block px-6 py-3 text-[0.75rem] uppercase tracking-[0.18em] text-white/90 transition-colors hover:bg-white/5 hover:text-antique-brass"
+                        >
+                          {s.name}
+                        </a>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+            {simpleLinks.map((l) => (
+              <a key={l.name} href={l.href} className={linkClass}>
                 {l.name}
               </a>
             ))}
@@ -188,6 +233,7 @@ const Navbar = () => {
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="fixed inset-0 z-[100] bg-chinese-black p-8 flex flex-col"
           >
             <div className="flex justify-end">
@@ -195,8 +241,46 @@ const Navbar = () => {
                 <NavbarCloseIcon />
               </button>
             </div>
-            <div className="flex flex-col gap-6 mt-8">
-              {links.map((l) => (
+            <div className="mt-8 flex flex-col gap-6">
+              <a href="#" className="text-2xl font-serif text-white hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
+                Hjem
+              </a>
+              <div>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between gap-3 text-left text-2xl font-serif text-white hover:text-antique-brass"
+                  aria-expanded={mobileProductsOpen}
+                  onClick={() => setMobileProductsOpen((o) => !o)}
+                >
+                  <span>Produkter</span>
+                  <span className="text-lg font-sans font-light text-white/45 tabular-nums" aria-hidden>
+                    {mobileProductsOpen ? '−' : '+'}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {mobileProductsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-4 flex flex-col gap-4 border-l border-white/15 pl-5">
+                        <a href="#produkter" className="text-lg font-serif text-white/80 hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
+                          Produkter
+                        </a>
+                        {productSubLinks.map((s) => (
+                          <a key={s.name} href={s.href} className="text-lg font-serif text-white/80 hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
+                            {s.name}
+                          </a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              {simpleLinks.map((l) => (
                 <a key={l.name} href={l.href} className="text-2xl font-serif text-white hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
                   {l.name}
                 </a>
@@ -238,8 +322,8 @@ const Hero = () => (
     <div className="relative z-10 mx-auto w-full max-w-7xl translate-y-[50px] px-6">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
         <h1 className="mb-8 mt-[80px] font-serif text-[2.64rem] leading-[0.9] md:text-[5.28rem]">
-          Bedre kaffe gir <br />
-          <span className="text-antique-brass italic">bedre arbeidsdager</span>
+          Gratis kaffemaskin <br />
+          <span className="text-antique-brass italic">til kontoret.</span>
         </h1>
         <div className="inline-flex max-w-full flex-col items-stretch">
           <div className="mb-8 flex flex-wrap gap-x-4 gap-y-2 md:flex-nowrap">
@@ -250,8 +334,8 @@ const Hero = () => (
               </span>
             ))}
           </div>
-          <p className="mb-10 w-full max-w-xs text-pretty text-lg leading-relaxed text-white sm:max-w-sm md:max-w-md md:text-xl lg:max-w-lg">
-            Vi leverer kaffeløsninger og drikkeløsninger til norske kontorer. Med 17 års erfaring og rask service sørger vi for at kaffekoppen alltid er som den skal.
+          <p className="mb-10 w-full max-w-xl text-pretty text-lg leading-relaxed text-white md:text-xl lg:max-w-2xl">
+            Vi leverer kaffeløsninger til kontor og bedrifter – uten risiko og uten unødvendige kostnader. Få bedre kaffe på jobb uten å binde deg til lange avtaler.
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
@@ -270,20 +354,28 @@ const Stats = () => {
     { value: '17+', label: 'Års erfaring' },
     { value: '70k', label: 'Kopper daglig' },
     { value: '1-2t', label: 'Responstid' },
-    { value: null, label: 'Miljøfyrtårn sertifisert', iconName: 'leaf' },
+    { value: null, label: 'Miljøfyrtårn sertifisert' },
   ];
 
   return (
     <section className="bg-cream py-14 border-b border-cream-dark">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-10 px-6 md:grid-cols-4 md:gap-y-8">
         {items.map((s, i) => (
-          <div key={i} className="flex flex-col items-center justify-center">
-            {s.value ? (
-              <span className="text-4xl md:text-5xl font-serif text-chinese-black mb-1">{s.value}</span>
-            ) : (
-              <StatsMiljofyrtarnLeafIcon />
-            )}
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-antique-brass font-semibold">{s.label}</span>
+          <div key={i} className="flex h-full min-h-0 flex-col items-center">
+            <div className="flex min-h-[2.75rem] w-full flex-1 items-center justify-center md:min-h-[3.25rem]">
+              {s.value ? (
+                <span className="font-serif text-4xl leading-none text-chinese-black md:text-5xl">{s.value}</span>
+              ) : (
+                <img
+                  src="/images/miljofyrtarn-sertifisert-virksomhet-horisontal-RGB.svg"
+                  alt="Miljøfyrtårn-sertifisert virksomhet"
+                  className="h-[1.925rem] w-auto max-w-[min(100%,11rem)] object-contain object-center md:h-[2.475rem] md:max-w-[min(100%,13.75rem)]"
+                />
+              )}
+            </div>
+            <span className="mt-3 w-full shrink-0 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-antique-brass md:text-xs">
+              {s.label}
+            </span>
           </div>
         ))}
       </div>
@@ -384,13 +476,13 @@ const QualitySection = () => (
 
 const ProductsSection = () => {
   const products = [
-    { title: 'Kaffemaskiner', desc: 'Kaffemaskiner for den perfekte koppen.', img: '/images/produkt-kaffemaskin.jpg', icon: 'coffee' },
-    { title: 'Kaffetraktere', desc: 'Tradisjonell trakting for store og små kontorer.', img: '/images/produkt-kaffetrakter.jpg', icon: 'clock' },
-    { title: 'Vannmaskiner', desc: 'Friskt, kaldt vann med og uten kullsyre.', img: '/images/produkt-vannmaskin.jpg', icon: 'droplets' },
+    { id: 'kaffemaskiner', title: 'Kaffemaskiner', desc: 'Kaffemaskiner for den perfekte koppen.', img: '/images/produkt-kaffemaskin.jpg', icon: 'coffee' },
+    { id: 'kaffetraktere', title: 'Kaffetraktere', desc: 'Tradisjonell trakting for store og små kontorer.', img: '/images/produkt-kaffetrakter.jpg', icon: 'clock' },
+    { id: 'vannmaskiner', title: 'Vannmaskiner', desc: 'Friskt, kaldt vann med og uten kullsyre.', img: '/images/produkt-vannmaskin.jpg', icon: 'droplets' },
   ];
 
   return (
-    <section id="produkter" className="bg-white py-24 md:py-32 text-chinese-black">
+    <section id="produkter" className="scroll-mt-28 bg-cream py-24 md:py-32 text-chinese-black">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Produkter og løsninger</span>
@@ -405,11 +497,12 @@ const ProductsSection = () => {
           {products.map((p, i) => (
             <motion.div
               key={p.title}
+              id={p.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group relative overflow-hidden rounded-3xl aspect-[3/4] cursor-pointer"
+              className="group relative scroll-mt-28 overflow-hidden rounded-3xl aspect-[3/4] cursor-pointer"
             >
               <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-chinese-black via-chinese-black/20 to-transparent" />
@@ -466,25 +559,39 @@ const TasteSortimentIcon = ({ name }: { name: string }) => {
 
 const TasteSection = () => {
   const items = [
-    { icon: 'coffee', name: "Vanlige mannen i gata", desc: "Klassisk og tilgjengelig – kaffe alle kjenner seg igjen i." },
-    { icon: 'diamond', name: "Feinsmekker'n", desc: "Spesialkaffe fra mikrobrennerier med karakter og dybde." },
-    { icon: 'flower-2', name: "Trommer'n", desc: "Kraftig og fyldig – for de som vil kjenne at det er kaffe." },
+    {
+      icon: 'coffee',
+      name: 'Kontorklassiker',
+      desc: 'Balansert og lett å like – passer når dere vil ha kaffe som fungerer for mange på arbeidsplassen, fra kjøkkenet til møterommet.',
+    },
+    {
+      icon: 'diamond',
+      name: 'Brenneri og spesialitet',
+      desc: 'Utvalg fra mikrobrennerier med tydelig smak og historie – for bedrifter som vil tilby litt ekstra i kaffekroken.',
+    },
+    {
+      icon: 'flower-2',
+      name: 'Fyldig og mørk',
+      desc: 'Kraftigere kropp og mer markant smak – når teamet ønsker en tydelig kaffeopplevelse i hverdagen.',
+    },
   ];
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <section id="alle-produkter" className="relative scroll-mt-28 overflow-hidden py-24 md:py-32">
       <div className="absolute inset-0 z-0">
-        <img src="/images/kaffesmak-bakgrunn.jpg" alt="" className="w-full h-full object-cover opacity-40" />
+        <img src="/images/kaffesmak-bakgrunn.jpg" alt="" className="h-full w-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-chinese-black/60 via-transparent to-chinese-black/80" />
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Kaffe og sortiment</span>
-          <h2 className="text-4xl md:text-6xl font-serif leading-tight text-white">
-            Hvordan vil du at kaffen<br /><span className="italic font-light">skal smake?</span>
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+          <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Kaffe og sortiment</span>
+          <h2 className="font-serif text-4xl leading-tight text-white md:text-6xl">
+            Hvordan vil du at kaffen
+            <br />
+            <span className="font-light italic">skal smake?</span>
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="mb-12 grid gap-6 md:mb-14 md:grid-cols-3">
           {items.map((item, i) => (
             <motion.div
               key={item.name}
@@ -492,18 +599,23 @@ const TasteSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group p-8 rounded-3xl border border-white/10 hover:border-antique-brass/40 bg-white/[0.03] hover:bg-white/[0.06] backdrop-blur-sm transition-all duration-300"
+              className="group rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-antique-brass/40 hover:bg-white/[0.06]"
             >
               <div className="mb-6 opacity-90 transition-opacity group-hover:opacity-100">
                 <TasteSortimentIcon name={item.icon} />
               </div>
-              <h3 className="font-serif text-2xl md:text-3xl text-white group-hover:text-antique-brass transition-colors leading-tight mb-4">{item.name}</h3>
-              <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
+              <h3 className="mb-4 font-serif text-2xl leading-tight text-white transition-colors group-hover:text-antique-brass md:text-3xl">{item.name}</h3>
+              <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
             </motion.div>
           ))}
         </div>
-        <div className="text-center">
-          <Button variant="outline">Se alle produkter</Button>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-base leading-relaxed text-white/70 md:text-lg">
+            Vi har samlet kaffe, te, kakao og tilbehør fra leverandører vi vet leverer kvalitet – så dere enkelt kan finne det som passer best hos dere.
+          </p>
+          <div className="mt-8 flex justify-center">
+            <Button variant="outline">Se alle produkter</Button>
+          </div>
         </div>
       </div>
     </section>
@@ -608,7 +720,7 @@ const GreenSection = () => (
               src="/images/MrCoffee_Logo.svg"
               alt=""
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-[42%] h-[5.4rem] w-[5.4rem] -translate-x-1/2 -translate-y-1/2 opacity-100 sm:h-[7.2rem] sm:w-[7.2rem]"
+              className="pointer-events-none absolute left-1/2 top-[42%] h-[5.4rem] w-[5.4rem] -translate-x-1/2 -translate-y-1/2 object-contain opacity-100 sm:h-[7.2rem] sm:w-[7.2rem]"
             />
             <span className="relative font-serif text-4xl text-chinese-black transition-transform duration-300 group-hover:scale-105 md:text-5xl">
               17+
@@ -659,9 +771,14 @@ const GreenSection = () => (
             Et bevis på at vi tar bærekraft på alvor – i alt vi leverer.
           </p>
         </div>
-        <Button href="#om-oss" className="border border-transparent hover:border-[#3D4245]">
-          Om oss
-        </Button>
+        <div className="flex flex-wrap gap-4">
+          <Button href="#om-oss" className="border border-transparent hover:border-[#3D4245]">
+            Om oss
+          </Button>
+          <Button variant="outlineDark" href="#baerekraft">
+            Bærekraft
+          </Button>
+        </div>
       </motion.div>
     </div>
   </section>
@@ -758,9 +875,25 @@ const ContactSection = () => (
                   <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder="Bedriftsnavn" />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-xs uppercase tracking-widest text-white/50 ml-1">E-post</label>
-                <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder="din@epost.no" />
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-xs uppercase tracking-widest text-white/50 ml-1">E-post</label>
+                  <input
+                    type="email"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition-colors placeholder:text-white/35 focus:border-antique-brass focus:outline-none"
+                    placeholder="din@epost.no"
+                    autoComplete="email"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs uppercase tracking-widest text-white/50 ml-1">Telefon</label>
+                  <input
+                    type="tel"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition-colors placeholder:text-white/35 focus:border-antique-brass focus:outline-none"
+                    placeholder="64 86 68 00"
+                    autoComplete="tel"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest text-white/50 ml-1">Melding</label>
@@ -779,7 +912,11 @@ const ContactSection = () => (
 const Footer = () => (
   <footer className="py-12 border-t border-white/5">
     <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-      <img src="/images/MrCoffee_Logo.svg" alt="MrCoffee" className="h-14 w-auto" />
+      <img
+        src="/images/MrCoffee_Logo-m-tekst-hvit.svg"
+        alt="MrCoffee"
+        className="h-[2.695rem] w-auto max-w-full object-contain"
+      />
       <span className="text-white/30 text-xs uppercase tracking-[0.2em]">© 2026 MrCoffee.no — 100% Norskeid</span>
       <div className="flex gap-6">
         {['Facebook', 'Instagram', 'LinkedIn'].map((s) => (
