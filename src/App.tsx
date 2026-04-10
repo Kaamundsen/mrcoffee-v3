@@ -153,7 +153,7 @@ const Navbar = () => {
       <nav
         className={`fixed left-0 top-0 z-50 w-full overflow-visible transition-all duration-300 ${
           isScrolled
-            ? 'border-b border-cream-dark/60 bg-cream/95 pt-[11px] pb-[6px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] backdrop-blur-md'
+            ? 'border-b border-cream-dark/60 bg-cream/95 py-[9px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] backdrop-blur-md'
             : 'border-b border-transparent bg-transparent pt-6 pb-[19px]'
         }`}
       >
@@ -166,7 +166,7 @@ const Navbar = () => {
                   : '/images/MrCoffee_Logo-m-tekst-hvit.svg'
               }
               alt="MrCoffee"
-              className={`w-auto transition-[height,transform] duration-300 ${isScrolled ? 'h-[3.717rem] translate-y-[calc(5%-3px)]' : 'h-[4.213rem] -translate-y-[3px]'}`}
+              className={`w-auto transition-[height,transform] duration-300 ${isScrolled ? 'h-[3.717rem]' : 'h-[4.213rem] -translate-y-[3px]'}`}
             />
           </a>
           <div className="hidden items-center gap-[2.1rem] overflow-visible pt-[3px] lg:flex">
@@ -775,9 +775,6 @@ const GreenSection = () => (
           <Button href="#om-oss" className="border border-transparent hover:border-[#3D4245]">
             Om oss
           </Button>
-          <Button variant="outlineDark" href="#baerekraft">
-            Bærekraft
-          </Button>
         </div>
       </motion.div>
     </div>
@@ -804,7 +801,7 @@ const SustainabilitySection = () => (
             <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
               MrCoffee er stolte av å være Miljøfyrtårn-sertifisert. Vi jobber kontinuerlig med å redusere vårt miljøavtrykk gjennom bærekraftige kaffeløsninger, etisk handel og miljøvennlig logistikk.
             </p>
-            <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+            <div className="flex flex-wrap gap-6 justify-center md:justify-start mb-8">
               {['Etisk handel', 'Gjenbrukbare løsninger', 'CO₂-nøytral frakt'].map((item) => (
                 <span key={item} className={`flex items-center gap-2 text-sm font-medium ${ICON_BRASS}`}>
                   <svg
@@ -823,6 +820,11 @@ const SustainabilitySection = () => (
                   {item}
                 </span>
               ))}
+            </div>
+            <div className="flex justify-center md:justify-start">
+              <Button variant="outline" href="#baerekraft">
+                Bærekraft
+              </Button>
             </div>
           </div>
         </div>
