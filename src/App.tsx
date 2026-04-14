@@ -335,7 +335,7 @@ const Hero = () => (
             ))}
           </div>
           <p className="mb-10 w-full max-w-xl text-pretty text-lg leading-relaxed text-white md:text-xl lg:max-w-2xl">
-            Vi leverer kaffeløsninger til kontor og bedrifter – uten risiko og uten unødvendige kostnader. Få bedre kaffe på jobb uten å binde deg til lange avtaler.
+            Vi leverer kaffeløsninger til kontor og bedrifter – uten unødvendige kostnader. Få en god kaffe på jobb uten å binde deg til lange avtaler.
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
@@ -351,9 +351,9 @@ const Hero = () => (
 
 const Stats = () => {
   const items = [
-    { value: '17+', label: 'Års erfaring' },
+    { value: '2009', label: 'Etablert' },
     { value: '70k', label: 'Kopper daglig' },
-    { value: '1-2t', label: 'Responstid' },
+    { value: '24t', label: 'Responstid' },
     { value: null, label: 'Miljøfyrtårn sertifisert' },
   ];
 
@@ -411,13 +411,13 @@ const QualitySection = () => (
         </h2>
         <div className="space-y-5 text-chinese-black/70 leading-relaxed max-w-xl">
           <p>
-            Det hjelper ikke med en kaffemaskin hvis kaffen ikke smaker godt. Derfor jobber vi med utvalgte mikrobrennerier og leverandører som leverer kvalitet – hver gang.
+            Det hjelper ikke med en kaffemaskin hvis kaffen ikke smaker godt. Derfor jobber vi med utvalgte mikrobrennerier og leverandører som leverer kvalitet hver gang.
           </p>
           <p>
-            Vi tilbyr blant annet kaffe fra <span className="text-chinese-black font-medium">Den Gyldne Bønne</span> og utvalgte brennerier i Stockholm, inkludert <span className="text-chinese-black font-medium">GasHaga på Lidingö</span>, som har oppnådd topp plassering internasjonalt.
+            Vi tilbyr blant annet kaffe fra <span className="text-chinese-black font-medium">Den Gyldne Bønne</span> og <span className="text-chinese-black font-medium">Gåshaga</span>.
           </p>
           <p>
-            Hos oss får du ikke bare kaffe – du får en løsning som er tilpasset smaken på arbeidsplassen. Selv kakaoen smaker slik den skal – som sjokolade.
+            Hos oss får du ikke bare kaffe – du får en løsning som er tilpasset smaken på arbeidsplassen.
           </p>
         </div>
         <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
@@ -490,7 +490,7 @@ const ProductsSection = () => {
             Kaffeløsninger tilpasset<br /><span className="italic font-light">din bedrift.</span>
           </h2>
           <p className="text-chinese-black/60 leading-relaxed">
-            Vi leverer kaffemaskiner og drikkeløsninger til kontorer og arbeidsplasser. Enten dere er 20 ansatte eller flere, finner vi en løsning som passer behovet deres.
+            Våre skreddersydde kaffeløsninger passer både små og store virksomheter, med fokus på kvalitet og brukervennlighet. Vi tilpasser løsningen etter deres behov, forbruk og preferanser, slik at dere alltid får kvalitetskaffe – enkelt, effektivt og uten bekymringer.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
@@ -524,8 +524,8 @@ const ProductsSection = () => {
   );
 };
 
-const TasteSortimentIcon = ({ name }: { name: string }) => {
-  const cls = `h-7 w-7 shrink-0 ${ICON_BRASS}`;
+const TasteSortimentIcon = ({ name, color }: { name: string; color?: string }) => {
+  const cls = `h-7 w-7 shrink-0 ${color ?? ICON_BRASS}`;
   switch (name) {
     case 'coffee':
       return (
@@ -536,10 +536,11 @@ const TasteSortimentIcon = ({ name }: { name: string }) => {
           <path d="M6 2v2" />
         </svg>
       );
-    case 'diamond':
+    case 'bean':
       return (
         <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z" />
+          <path d="M10.5 3C7 3 4.5 7.1 4.5 12s2.5 9 6 9 6-4 6-9-2.5-9-6-9z" />
+          <path d="M10.5 3c2.3 3.5 2.3 11.5 0 18" />
         </svg>
       );
     case 'flower-2':
@@ -558,21 +559,22 @@ const TasteSortimentIcon = ({ name }: { name: string }) => {
 };
 
 const TasteSection = () => {
-  const items = [
+  const items: { icon: string; name: string; desc: string; iconColor?: string }[] = [
     {
       icon: 'coffee',
       name: 'Kontorklassiker',
       desc: 'Balansert og lett å like – passer når dere vil ha kaffe som fungerer for mange på arbeidsplassen, fra kjøkkenet til møterommet.',
     },
     {
-      icon: 'diamond',
-      name: 'Brenneri og spesialitet',
+      icon: 'bean',
+      name: 'Baristaen/kaffekjennern',
       desc: 'Utvalg fra mikrobrennerier med tydelig smak og historie – for bedrifter som vil tilby litt ekstra i kaffekroken.',
     },
     {
       icon: 'flower-2',
-      name: 'Fyldig og mørk',
-      desc: 'Kraftigere kropp og mer markant smak – når teamet ønsker en tydelig kaffeopplevelse i hverdagen.',
+      name: 'Bærekraft',
+      desc: 'For deg som bryr deg om kvalitet, opprinnelse og planeten vår.',
+      iconColor: 'text-emerald-600',
     },
   ];
 
@@ -602,7 +604,7 @@ const TasteSection = () => {
               className="group rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-antique-brass/40 hover:bg-white/[0.06]"
             >
               <div className="mb-6 opacity-90 transition-opacity group-hover:opacity-100">
-                <TasteSortimentIcon name={item.icon} />
+                <TasteSortimentIcon name={item.icon} color={item.iconColor} />
               </div>
               <h3 className="mb-4 font-serif text-2xl leading-tight text-white transition-colors group-hover:text-antique-brass md:text-3xl">{item.name}</h3>
               <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
@@ -639,20 +641,20 @@ const ServiceSection = () => (
   <section id="service" className="bg-[#F1E7DF] py-24 md:py-32 text-chinese-black">
     <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-14 px-6 md:grid-cols-2 md:items-stretch md:gap-16 lg:gap-20">
       <div className="md:pt-1">
-        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Service &amp; vedlikehold</span>
+        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Tjeneste og vedlikehold</span>
         <h2 className="mb-8 font-serif text-4xl leading-[1.05] text-chinese-black md:text-6xl">
           Service som
           <br />
           <span className="italic text-antique-brass">faktisk fungerer</span>
         </h2>
         <p className="mb-10 max-w-xl leading-relaxed text-chinese-black/80">
-          Når kaffemaskinen stopper, må det løses raskt. Derfor er service det viktigste vi gjør. Vi er på plass innen 1–2 timer ved behov.
+          Når kaffemaskinen stopper, må det løses raskt. Derfor er service det viktigste vi gjør.
         </p>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 sm:gap-10">
           <div className="flex flex-col gap-3">
             <ServiceShieldIcon />
             <h4 className="font-serif text-xl font-medium text-chinese-black">Gratis service</h4>
-            <p className="text-sm leading-relaxed text-chinese-black/65">Alle våre maskiner inkluderer full serviceavtale uten ekstra kostnad.</p>
+            <p className="text-sm leading-relaxed text-chinese-black/65">Alle våre maskiner inkluderer full serviceavtale uten ekstra kostnader.</p>
           </div>
           <div className="flex flex-col gap-3">
             <ServicePhoneIcon />
@@ -850,7 +852,7 @@ const ContactSection = () => (
               {[
                 { icon: 'phone', label: 'Ring oss', value: '64 86 68 00' },
                 { icon: 'mail', label: 'E-post', value: 'post@mrcoffee.no' },
-                { icon: 'map-pin', label: 'Besøk oss', value: 'Gneisveien 2, 1914 Ytre Enebakk' },
+                { icon: 'map-pin', label: 'Besøk oss', value: 'Gneisveien 2c, 1914 Ytre Enebakk' },
               ].map((c) => (
                 <div key={c.icon} className="flex items-center gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full glass">
