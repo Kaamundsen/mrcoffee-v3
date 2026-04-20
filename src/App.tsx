@@ -21,12 +21,23 @@ const NavbarCloseIcon = () => (
   </svg>
 );
 
-const ProductLineIcon = ({ name, className }: { name: string; className?: string }) => {
-  const cls = `shrink-0 ${ICON_BRASS} ${className ?? ''}`.trim();
+const ProductLineIcon = ({
+  name,
+  className,
+  strokeWidth = 2,
+  colorClass = ICON_BRASS,
+}: {
+  name: string;
+  className?: string;
+  strokeWidth?: number;
+  colorClass?: string;
+}) => {
+  const cls = `shrink-0 ${colorClass} ${className ?? ''}`.trim();
+  const sw = strokeWidth;
   switch (name) {
     case 'coffee':
       return (
-        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M10 2v2" />
           <path d="M14 2v2" />
           <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
@@ -35,14 +46,14 @@ const ProductLineIcon = ({ name, className }: { name: string; className?: string
       );
     case 'clock':
       return (
-        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <circle cx="12" cy="12" r="10" />
           <path d="M12 6v6l4 2" />
         </svg>
       );
     case 'droplets':
       return (
-        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z" />
           <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97" />
         </svg>
@@ -158,7 +169,7 @@ const Navbar = () => {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between overflow-visible px-6">
-          <a href="#">
+          <a href="#" className="block min-w-0 max-w-[calc(100vw-5.5rem)] shrink sm:max-w-none">
             <img
               src={
                 isScrolled
@@ -166,7 +177,9 @@ const Navbar = () => {
                   : '/images/MrCoffee_Logo-m-tekst-hvit.svg'
               }
               alt="MrCoffee"
-              className={`w-auto transition-[height,transform] duration-300 ${isScrolled ? 'h-[3.717rem]' : 'h-[4.213rem] -translate-y-[3px]'}`}
+              className={`w-auto max-w-full object-contain object-left transition-[height,transform] duration-300 ${
+                isScrolled ? 'h-[3.25rem] sm:h-[3.717rem]' : 'h-[3.35rem] sm:h-[4.213rem] -translate-y-[3px]'
+              }`}
             />
           </a>
           <div className="hidden items-center gap-[2.1rem] overflow-visible pt-[3px] lg:flex">
@@ -349,13 +362,33 @@ const Hero = () => (
   </section>
 );
 
+/** Lucide «feather» (ISC) – klassisk fjærpenn, annen form enn det buede skaft-ikonet. */
+const StatsFeatherIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={`shrink-0 text-chinese-black ${className ?? ''}`.trim()}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.5}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
+    <path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" />
+    <path d="M16 8 2 22" />
+    <path d="M17.5 15H9" />
+  </svg>
+);
+
 const Stats = () => {
   const items = [
-    { value: '2009', label: 'Etablert' },
-    { value: '70k', label: 'Kopper daglig' },
-    { value: '24t', label: 'Responstid' },
-    { value: null, label: 'Miljøfyrtårn sertifisert' },
+    { kind: 'icon' as const, icon: 'feather' as const, label: 'Etablert 2009' },
+    { kind: 'icon' as const, icon: 'coffee' as const, label: '70K kopper daglig' },
+    { kind: 'icon' as const, icon: 'clock' as const, label: 'Rask responstid' },
+    { kind: 'miljo' as const, label: 'Miljøfyrtårn sertifisert' },
   ];
+
+  const iconClass = 'h-[1.85rem] w-[1.85rem] md:h-[2.35rem] md:w-[2.35rem]';
 
   return (
     <section className="bg-cream py-14 border-b border-cream-dark">
@@ -363,14 +396,16 @@ const Stats = () => {
         {items.map((s, i) => (
           <div key={i} className="flex h-full min-h-0 flex-col items-center">
             <div className="flex min-h-[2.75rem] w-full flex-1 items-center justify-center md:min-h-[3.25rem]">
-              {s.value ? (
-                <span className="font-serif text-4xl leading-none text-chinese-black md:text-5xl">{s.value}</span>
-              ) : (
+              {s.kind === 'miljo' ? (
                 <img
                   src="/images/miljofyrtarn-sertifisert-virksomhet-horisontal-RGB.svg"
                   alt="Miljøfyrtårn-sertifisert virksomhet"
                   className="h-[1.925rem] w-auto max-w-[min(100%,11rem)] object-contain object-center md:h-[2.475rem] md:max-w-[min(100%,13.75rem)]"
                 />
+              ) : s.icon === 'feather' ? (
+                <StatsFeatherIcon className={iconClass} />
+              ) : (
+                <ProductLineIcon name={s.icon} className={iconClass} strokeWidth={1.5} colorClass="text-chinese-black" />
               )}
             </div>
             <span className="mt-3 w-full shrink-0 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-antique-brass md:text-xs">
@@ -761,16 +796,10 @@ const GreenSection = () => (
         </h2>
         <div className="mb-8 space-y-5 leading-relaxed text-chinese-black/70">
           <p>
-            MrCoffee er et 100 % norskeid selskap med over 17 års erfaring i å levere kaffeløsninger til norske arbeidsplasser.
+            Mr Coffee er et 100 % norskeid selskap med over 17 års erfaring i å levere kaffeløsninger til norske arbeidsplasser.
           </p>
           <p>
             Vi serverer i dag over <span className="font-bold text-chinese-black">70.000 kopper</span> varm drikke hver eneste dag, og har fornøyde kunder over store deler av landet.
-          </p>
-        </div>
-        <div className="mb-10">
-          <h4 className="font-serif text-xl text-chinese-black">Miljøfyrtårn-sertifisert</h4>
-          <p className="mt-1 text-sm leading-relaxed text-chinese-black/70">
-            Et bevis på at vi tar bærekraft på alvor – i alt vi leverer.
           </p>
         </div>
         <div className="flex flex-wrap gap-4">

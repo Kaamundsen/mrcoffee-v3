@@ -1,0 +1,126 @@
+/**
+ * MrCoffee.no – utdrag av globale stiler fra React-prosjektet.
+ * Lim inn i YOOtheme → Tilpass → Tilpasset CSS (eller child theme).
+ * Juster prefiks (.mrcoffee) om du vil scope mot én mal-side.
+ */
+
+:root {
+  --mc-chinese-black: #0c1519;
+  --mc-dark-jungle: #162127;
+  --mc-jet: #3a3534;
+  --mc-coffee: #724b39;
+  --mc-antique-brass: #c89f80;
+  --mc-cream: #f8f6ef;
+  --mc-cream-dark: #e8e4d9;
+  --mc-quality-bg: #f1e7df;
+  --mc-quality-card: #ebe2da;
+  --mc-font-serif: "Cormorant Garamond", Georgia, serif;
+  --mc-font-sans: "Inter", system-ui, sans-serif;
+}
+
+.mc-body {
+  font-family: var(--mc-font-sans);
+  color: var(--mc-chinese-black);
+  background: var(--mc-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+.mc-heading,
+h1.mc-heading,
+h2.mc-heading,
+h3.mc-heading {
+  font-family: var(--mc-font-serif);
+  color: var(--mc-chinese-black);
+}
+
+.mc-eyebrow {
+  font-family: var(--mc-font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mc-antique-brass);
+}
+
+.mc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-family: var(--mc-font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.mc-btn--primary {
+  background: var(--mc-antique-brass);
+  color: var(--mc-chinese-black);
+  border: 1px solid transparent;
+}
+.mc-btn--primary:hover {
+  background: #fff;
+}
+
+.mc-btn--ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+.mc-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mc-btn--outline {
+  background: transparent;
+  color: var(--mc-antique-brass);
+  border: 1px solid var(--mc-antique-brass);
+}
+.mc-btn--outline:hover {
+  background: var(--mc-antique-brass);
+  color: var(--mc-chinese-black);
+}
+
+.mc-btn--outline-dark {
+  background: transparent;
+  color: var(--mc-chinese-black);
+  border: 1px solid rgba(12, 21, 25, 0.3);
+}
+.mc-btn--outline-dark:hover {
+  background: var(--mc-antique-brass);
+  border-color: var(--mc-antique-brass);
+}
+
+.mc-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mc-glass-light {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.mc-atmosphere {
+  background: radial-gradient(circle at 50% -20%, #162127 0%, #0c1519 100%);
+  color: #fff;
+}
+
+.mc-section-pad {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+@media (min-width: 768px) {
+  .mc-section-pad {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
