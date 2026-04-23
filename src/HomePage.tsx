@@ -823,9 +823,12 @@ const SustainabilitySection = () => (
               ))}
             </div>
             <div className="flex justify-center md:justify-start">
-              <Button variant="outline" href="/baerekraft">
+              <Link
+                to="/baerekraft"
+                className="inline-flex items-center justify-center rounded-full border border-antique-brass px-8 py-4 text-sm font-semibold uppercase tracking-widest text-antique-brass transition-all duration-300 hover:bg-antique-brass hover:text-chinese-black"
+              >
                 Bærekraft
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -834,7 +837,7 @@ const SustainabilitySection = () => (
   </section>
 );
 
-const ContactSection = () => (
+export const ContactSection = () => (
   <section id="kontakt" className="py-24 md:py-32 atmosphere-bg">
     <div className="max-w-7xl mx-auto px-6">
       <div className="glass p-10 md:p-16 rounded-[48px] relative overflow-hidden">
@@ -913,7 +916,7 @@ const ContactSection = () => (
 );
 
 export const Footer = () => (
-  <footer className="py-12 border-t border-white/5">
+  <footer className="border-t border-white/10 bg-chinese-black py-12">
     <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
       <img
         src="/images/MrCoffee_Logo-m-tekst-hvit.svg"
