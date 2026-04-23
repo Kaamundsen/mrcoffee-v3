@@ -116,7 +116,7 @@ Disse filnavnene brukes i koden (noen kan ligge utenfor git – kopier fra ferdi
 - `produkt-kaffemaskin.jpg`, `produkt-kaffetrakter.jpg`, `produkt-vannmaskin.jpg` – produktkort
 - `kaffesmak-bakgrunn.jpg` – bakgrunn «Kaffe og sortiment»
 - `om-oss-kaffe.jpg`, `om-oss-kaffekopp.jpg` – om oss + service-bilde
-- `baerekraft-bakgrunn_2.jpeg` – bærekraft full bredde bak
+- `baerekraft-bakgrunn_2.jpg` – bærekraft full bredde bak
 - `MrCoffee_Logo.svg`, `MrCoffee_Logo-m-tekst-hvit.svg`, `MrCoffee_Logo-m-tekst-sort.svg`
 - `miljofyrtarn-sertifisert-virksomhet-horisontal-RGB.svg` (stats), `miljofyrtarn-sertifisert-virksomhet-vertikal-RGB.svg` (bærekraft-panel)
 

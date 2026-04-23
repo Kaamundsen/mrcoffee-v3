@@ -238,8 +238,8 @@ BILDEFILER (stier som i App.tsx — legg i public/images/ med unntak av notat)
 /images/om-oss-kaffekopp.jpg
   → om-oss-kaffekopp.jpg
 
-/images/baerekraft-bakgrunn_2.jpeg
-  → baerekraft-bakgrunn_2.jpeg
+/images/baerekraft-bakgrunn_2.jpg
+  → baerekraft-bakgrunn_2.jpg
 
 /images/miljofyrtarn-sertifisert-virksomhet-vertikal-RGB.svg
   → miljofyrtarn-sertifisert-virksomhet-vertikal-RGB.svg
