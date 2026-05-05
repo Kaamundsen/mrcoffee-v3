@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -137,7 +137,7 @@ export const Navbar = () => {
     { name: 'Service', href: '/#service' },
     { name: 'Om oss', href: '/#om-oss' },
     { name: 'Bærekraft', href: '/baerekraft' },
-    { name: 'Bestilling', href: '/#kontakt' },
+    { name: 'Bestilling', href: '/bestilling' },
     { name: 'Kontakt', href: '/#kontakt' },
   ] as const;
 
@@ -211,9 +211,11 @@ export const Navbar = () => {
               </div>
             </div>
             {simpleLinks.map((l) => (
-              <NavLink key={l.name} href={l.href} className={linkClass}>
-                {l.name}
-              </NavLink>
+              <Fragment key={l.name}>
+                <NavLink href={l.href} className={linkClass}>
+                  {l.name}
+                </NavLink>
+              </Fragment>
             ))}
           </div>
           <button type="button" className="lg:hidden p-1" aria-label="Meny" onClick={() => setMobileOpen(true)}>
@@ -276,9 +278,11 @@ export const Navbar = () => {
                 </AnimatePresence>
               </div>
               {simpleLinks.map((l) => (
-                <NavLink key={l.name} href={l.href} className="text-2xl font-serif text-white hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
-                  {l.name}
-                </NavLink>
+                <Fragment key={l.name}>
+                  <NavLink href={l.href} className="text-2xl font-serif text-white hover:text-antique-brass" onClick={() => setMobileOpen(false)}>
+                    {l.name}
+                  </NavLink>
+                </Fragment>
               ))}
             </div>
           </motion.div>
