@@ -1,6 +1,19 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { productSubLinks, simpleLinks } from './content/navigation';
+import {
+  hero,
+  stats,
+  quality,
+  productsSection,
+  tasteSection,
+  service,
+  omOss,
+  sustainability,
+  contact,
+  footer,
+} from './content/home';
 
 /** Standard farge for strek-ikoner. */
 const ICON_BRASS = 'text-[#C89F80]';
@@ -103,13 +116,6 @@ const NavLink = ({
 
 // --- Navbar ---
 
-const productSubLinks = [
-  { name: 'Kaffemaskiner', href: '/#kaffemaskiner' },
-  { name: 'Kaffetraktere', href: '/#kaffetraktere' },
-  { name: 'Vannmaskiner', href: '/#vannmaskiner' },
-  { name: 'Alle produkter', href: '/#alle-produkter' },
-] as const;
-
 export const Navbar = () => {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
@@ -132,14 +138,6 @@ export const Navbar = () => {
   const linkClass = `text-sm uppercase tracking-widest transition-colors hover:text-antique-brass ${
     navSolid ? 'text-chinese-black' : 'text-white'
   }`;
-
-  const simpleLinks = [
-    { name: 'Service', href: '/#service' },
-    { name: 'Om oss', href: '/#om-oss' },
-    { name: 'Bærekraft', href: '/baerekraft' },
-    { name: 'Bestilling', href: '/bestilling' },
-    { name: 'Kontakt', href: '/#kontakt' },
-  ] as const;
 
   return (
     <>
@@ -305,7 +303,7 @@ const Hero = () => (
   <section className="relative h-screen flex items-center overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img
-        src="/images/Hero-kontor.jpg"
+        src={hero.imageSrc}
         alt=""
         className="absolute inset-0 h-full w-full max-w-none object-cover object-bottom opacity-100"
       />
@@ -321,12 +319,12 @@ const Hero = () => (
     <div className="relative z-10 mx-auto w-full max-w-7xl translate-y-[50px] px-6">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
         <h1 className="mb-8 mt-[80px] font-serif text-[2.64rem] leading-[0.9] md:text-[5.28rem]">
-          Gratis kaffemaskin <br />
-          <span className="text-antique-brass italic">til kontoret.</span>
+          {hero.headlineLine1} <br />
+          <span className="text-antique-brass italic">{hero.headlineLine2}</span>
         </h1>
         <div className="inline-flex max-w-full flex-col items-stretch">
           <div className="mb-8 flex flex-wrap gap-x-4 gap-y-2 md:flex-nowrap">
-            {['Gratis leie', 'Gratis service', 'Ingen bindingstid'].map((item) => (
+            {hero.badges.map((item) => (
               <span key={item} className="flex shrink-0 items-center gap-2 text-sm uppercase tracking-widest text-white">
                 <HeroCheckIcon />
                 {item}
@@ -334,13 +332,13 @@ const Hero = () => (
             ))}
           </div>
           <p className="mb-10 w-full max-w-xl text-pretty text-lg leading-relaxed text-white md:text-xl lg:max-w-2xl">
-            Vi leverer kaffeløsninger til kontor og bedrifter – uten unødvendige kostnader. Få en god kaffe på jobb uten å binde deg til lange avtaler.
+            {hero.body}
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
-          <Button href="/#kontakt">Bestill kaffeløsning</Button>
-          <Button variant="ghost" href="/#kontakt" className="!border-[#3D4245] hover:!border-[#3D4245]">
-            Kontakt oss
+          <Button href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</Button>
+          <Button variant="ghost" href={hero.ctaSecondary.href} className="!border-[#3D4245] hover:!border-[#3D4245]">
+            {hero.ctaSecondary.label}
           </Button>
         </div>
       </motion.div>
@@ -348,26 +346,19 @@ const Hero = () => (
   </section>
 );
 
+const statsRowIconSrc: Record<'feather' | 'coffee' | 'clock', string> = {
+  feather: '/icons/stats/etablert-feather.svg',
+  coffee: '/icons/stats/kopper-daglig.svg',
+  clock: '/icons/stats/responstid-klokke.svg',
+};
+
 const Stats = () => {
-  const items = [
-    { kind: 'icon' as const, icon: 'feather' as const, label: 'Etablert 2009' },
-    { kind: 'icon' as const, icon: 'coffee' as const, label: '70K kopper daglig' },
-    { kind: 'icon' as const, icon: 'clock' as const, label: 'Rask responstid' },
-    { kind: 'miljo' as const, label: 'Miljøfyrtårn sertifisert' },
-  ];
-
-  const statsRowIconSrc: Record<'feather' | 'coffee' | 'clock', string> = {
-    feather: '/icons/stats/etablert-feather.svg',
-    coffee: '/icons/stats/kopper-daglig.svg',
-    clock: '/icons/stats/responstid-klokke.svg',
-  };
-
   const iconClass = 'h-[1.85rem] w-[1.85rem] md:h-[2.35rem] md:w-[2.35rem]';
 
   return (
     <section className="bg-cream py-14 border-b border-cream-dark">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-10 px-6 md:grid-cols-4 md:gap-y-8">
-        {items.map((s, i) => (
+        {stats.map((s, i) => (
           <div key={i} className="flex h-full min-h-0 flex-col items-center">
             <div className="flex min-h-[2.75rem] w-full flex-1 items-center justify-center md:min-h-[3.25rem]">
               {s.kind === 'miljo' ? (
@@ -410,38 +401,35 @@ const QualityLeafIcon = () => (
   </svg>
 );
 
+const qualityCardIcons = [<QualityCoffeeIcon key="coffee" />, <QualityLeafIcon key="leaf" />];
+
 const QualitySection = () => (
   <section id="kvalitet" className="bg-[#F1E7DF] py-24 md:py-32 text-chinese-black">
     <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 md:gap-16 lg:gap-20 items-start">
       <div className="md:pt-2">
-        <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Kvalitet på kaffe</span>
+        <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">{quality.eyebrow}</span>
         <h2 className="text-4xl md:text-6xl font-serif leading-[1.05] mb-8 text-chinese-black">
-          Kaffe folk faktisk
+          {quality.headlineLine1}
           <br />
-          <span className="italic text-antique-brass">vil drikke</span>
+          <span className="italic text-antique-brass">{quality.headlineLine2}</span>
         </h2>
         <div className="space-y-5 text-chinese-black/70 leading-relaxed max-w-xl">
+          <p>{quality.p1}</p>
           <p>
-            Det hjelper ikke med en kaffemaskin hvis kaffen ikke smaker godt. Derfor jobber vi med utvalgte mikrobrennerier og leverandører som leverer kvalitet hver gang.
+            Vi tilbyr blant annet kaffe fra{' '}
+            <span className="text-chinese-black font-medium">{quality.p2Brand1}</span> og{' '}
+            <span className="text-chinese-black font-medium">{quality.p2Brand2}</span>.
           </p>
-          <p>
-            Vi tilbyr blant annet kaffe fra <span className="text-chinese-black font-medium">Den Gyldne Bønne</span> og <span className="text-chinese-black font-medium">Gåshaga</span>.
-          </p>
-          <p>
-            Hos oss får du ikke bare kaffe – du får en løsning som er tilpasset smaken på arbeidsplassen.
-          </p>
+          <p>{quality.p3}</p>
         </div>
         <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          <div className="rounded-2xl bg-[#EBE2DA] p-6 md:p-7">
-            <QualityCoffeeIcon />
-            <h4 className="font-serif text-xl mb-2 text-chinese-black">Mikrobrennerier</h4>
-            <p className="text-sm text-chinese-black/65 leading-relaxed">Håndplukkede bønner fra de beste brenneriene.</p>
-          </div>
-          <div className="rounded-2xl bg-[#EBE2DA] p-6 md:p-7">
-            <QualityLeafIcon />
-            <h4 className="font-serif text-xl mb-2 text-chinese-black">Bærekraftig</h4>
-            <p className="text-sm text-chinese-black/65 leading-relaxed">Miljøfyrtårn-sertifisert og etisk handel.</p>
-          </div>
+          {quality.cards.map((card, i) => (
+            <div key={card.title} className="rounded-2xl bg-[#EBE2DA] p-6 md:p-7">
+              {qualityCardIcons[i]}
+              <h4 className="font-serif text-xl mb-2 text-chinese-black">{card.title}</h4>
+              <p className="text-sm text-chinese-black/65 leading-relaxed">{card.text}</p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -455,8 +443,8 @@ const QualitySection = () => (
         >
           <div className="h-[500px] w-full max-w-[400px] overflow-hidden rounded-3xl shadow-xl">
             <img
-              src="/images/Kaffekvalitet-1.jpg"
-              alt="Kaffe på kontoret"
+              src={quality.images[0].src}
+              alt={quality.images[0].alt}
               width={400}
               height={500}
               className="h-full w-full object-cover object-[center_25%]"
@@ -472,8 +460,8 @@ const QualitySection = () => (
         >
           <div className="h-[500px] w-full max-w-[400px] overflow-hidden rounded-3xl shadow-xl">
             <img
-              src="/images/Kaffekvalitet-2.jpg"
-              alt="Kaffe og kaffemaskin"
+              src={quality.images[1].src}
+              alt={quality.images[1].alt}
               width={400}
               height={500}
               className="h-full w-full object-cover object-center"
@@ -485,53 +473,45 @@ const QualitySection = () => (
   </section>
 );
 
-const ProductsSection = () => {
-  const products = [
-    { id: 'kaffemaskiner', title: 'Kaffemaskiner', desc: 'Kaffemaskiner for den perfekte koppen.', img: '/images/produkt-kaffemaskin.jpg', badge: '/icons/produkt-kaffemaskin-badge.svg' },
-    { id: 'kaffetraktere', title: 'Kaffetraktere', desc: 'Tradisjonell trakting for store og små kontorer.', img: '/images/produkt-kaffetrakter.jpg', badge: '/icons/produkt-kaffetrakter-badge.svg' },
-    { id: 'vannmaskiner', title: 'Vannmaskiner', desc: 'Friskt, kaldt vann med og uten kullsyre.', img: '/images/produkt-vannmaskin.jpg', badge: '/icons/produkt-vannmaskin-badge.svg' },
-  ];
-
-  return (
-    <section id="produkter" className="scroll-mt-28 bg-cream py-24 md:py-32 text-chinese-black">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Produkter og løsninger</span>
-          <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-6">
-            Kaffeløsninger tilpasset<br /><span className="italic font-light">din bedrift.</span>
-          </h2>
-          <p className="text-chinese-black/60 leading-relaxed">
-            Våre skreddersydde kaffeløsninger passer både små og store virksomheter, med fokus på kvalitet og brukervennlighet. Vi tilpasser løsningen etter deres behov, forbruk og preferanser, slik at dere alltid får kvalitetskaffe – enkelt, effektivt og uten bekymringer.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {products.map((p, i) => (
-            <motion.div
-              key={p.title}
-              id={p.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group relative scroll-mt-28 overflow-hidden rounded-3xl aspect-[3/4] cursor-pointer"
-            >
-              <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-chinese-black via-chinese-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full p-8">
-                <img src={p.badge} alt="" className="mb-4 h-12 w-12 shrink-0" width={48} height={48} decoding="async" />
-                <h3 className="text-2xl font-serif mb-2 text-white">{p.title}</h3>
-                <p className="text-sm text-white/60 mb-5">{p.desc}</p>
-                <span className={`flex items-center gap-2 text-sm font-semibold transition-all group-hover:gap-4 ${ICON_BRASS}`}>
-                  Se {p.title.toLowerCase()} <ChevronRightBrassIcon className="h-4 w-4 opacity-90" />
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+const ProductsSection = () => (
+  <section id="produkter" className="scroll-mt-28 bg-cream py-24 md:py-32 text-chinese-black">
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="text-center max-w-3xl mx-auto mb-16">
+        <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">{productsSection.eyebrow}</span>
+        <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-6">
+          {productsSection.headlineLine1}<br /><span className="italic font-light">{productsSection.headlineLine2}</span>
+        </h2>
+        <p className="text-chinese-black/60 leading-relaxed">
+          {productsSection.body}
+        </p>
       </div>
-    </section>
-  );
-};
+      <div className="grid md:grid-cols-3 gap-8">
+        {productsSection.cards.map((p, i) => (
+          <motion.div
+            key={p.title}
+            id={p.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className="group relative scroll-mt-28 overflow-hidden rounded-3xl aspect-[3/4] cursor-pointer"
+          >
+            <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-chinese-black via-chinese-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full p-8">
+              <img src={p.badge} alt="" className="mb-4 h-12 w-12 shrink-0" width={48} height={48} decoding="async" />
+              <h3 className="text-2xl font-serif mb-2 text-white">{p.title}</h3>
+              <p className="text-sm text-white/60 mb-5">{p.desc}</p>
+              <span className={`flex items-center gap-2 text-sm font-semibold transition-all group-hover:gap-4 ${ICON_BRASS}`}>
+                Se {p.title.toLowerCase()} <ChevronRightBrassIcon className="h-4 w-4 opacity-90" />
+              </span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 const TasteSortimentIcon = ({ name, color }: { name: string; color?: string }) => {
   const cls = `h-7 w-7 shrink-0 ${color ?? ICON_BRASS}`;
@@ -567,71 +547,50 @@ const TasteSortimentIcon = ({ name, color }: { name: string; color?: string }) =
   }
 };
 
-const TasteSection = () => {
-  const items: { icon: string; name: string; desc: string; iconColor?: string }[] = [
-    {
-      icon: 'coffee',
-      name: 'Kontorklassiker',
-      desc: 'Balansert og lett å like – passer når dere vil ha kaffe som fungerer for mange på arbeidsplassen, fra kjøkkenet til møterommet.',
-    },
-    {
-      icon: 'bean',
-      name: 'Baristaen/kaffekjennern',
-      desc: 'Utvalg fra mikrobrennerier med tydelig smak og historie – for bedrifter som vil tilby litt ekstra i kaffekroken.',
-    },
-    {
-      icon: 'flower-2',
-      name: 'Bærekraft',
-      desc: 'For deg som bryr deg om kvalitet, opprinnelse og planeten vår.',
-      iconColor: 'text-emerald-600',
-    },
-  ];
-
-  return (
-    <section id="alle-produkter" className="relative scroll-mt-28 overflow-hidden py-24 md:py-32">
-      <div className="absolute inset-0 z-0">
-        <img src="/images/kaffesmak-bakgrunn.jpg" alt="" className="h-full w-full object-cover opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-chinese-black/60 via-transparent to-chinese-black/80" />
+const TasteSection = () => (
+  <section id="alle-produkter" className="relative scroll-mt-28 overflow-hidden py-24 md:py-32">
+    <div className="absolute inset-0 z-0">
+      <img src={tasteSection.backgroundImageSrc} alt="" className="h-full w-full object-cover opacity-40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-chinese-black/60 via-transparent to-chinese-black/80" />
+    </div>
+    <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">{tasteSection.eyebrow}</span>
+        <h2 className="font-serif text-4xl leading-tight text-white md:text-6xl">
+          {tasteSection.headlineLine1}
+          <br />
+          <span className="font-light italic">{tasteSection.headlineLine2}</span>
+        </h2>
       </div>
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
-          <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Kaffe og sortiment</span>
-          <h2 className="font-serif text-4xl leading-tight text-white md:text-6xl">
-            Hvordan vil du at kaffen
-            <br />
-            <span className="font-light italic">skal smake?</span>
-          </h2>
-        </div>
-        <div className="mb-12 grid gap-6 md:mb-14 md:grid-cols-3">
-          {items.map((item, i) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-antique-brass/40 hover:bg-white/[0.06]"
-            >
-              <div className="mb-6 opacity-90 transition-opacity group-hover:opacity-100">
-                <TasteSortimentIcon name={item.icon} color={item.iconColor} />
-              </div>
-              <h3 className="mb-4 font-serif text-2xl leading-tight text-white transition-colors group-hover:text-antique-brass md:text-3xl">{item.name}</h3>
-              <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-base leading-relaxed text-white/70 md:text-lg">
-            Vi har samlet kaffe, te, kakao og tilbehør fra leverandører vi vet leverer kvalitet – så dere enkelt kan finne det som passer best hos dere.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Button variant="outline">Se alle produkter</Button>
-          </div>
+      <div className="mb-12 grid gap-6 md:mb-14 md:grid-cols-3">
+        {tasteSection.items.map((item, i) => (
+          <motion.div
+            key={item.name}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className="group rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm transition-all duration-300 hover:border-antique-brass/40 hover:bg-white/[0.06]"
+          >
+            <div className="mb-6 opacity-90 transition-opacity group-hover:opacity-100">
+              <TasteSortimentIcon name={item.icon} color={'iconColor' in item ? item.iconColor : undefined} />
+            </div>
+            <h3 className="mb-4 font-serif text-2xl leading-tight text-white transition-colors group-hover:text-antique-brass md:text-3xl">{item.name}</h3>
+            <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-base leading-relaxed text-white/70 md:text-lg">
+          {tasteSection.body}
+        </p>
+        <div className="mt-8 flex justify-center">
+          <Button variant="outline">{tasteSection.cta}</Button>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 const ServiceShieldIcon = () => (
   <svg className={`h-6 w-6 shrink-0 ${ICON_BRASS}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -646,40 +605,39 @@ const ServicePhoneIcon = () => (
   </svg>
 );
 
+const serviceCardIcons = [<ServiceShieldIcon key="shield" />, <ServicePhoneIcon key="phone" />];
+
 const ServiceSection = () => (
   <section id="service" className="bg-[#F1E7DF] py-24 md:py-32 text-chinese-black">
     <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-14 px-6 md:grid-cols-2 md:items-stretch md:gap-16 lg:gap-20">
       <div className="md:pt-1">
-        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Tjeneste og vedlikehold</span>
+        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">{service.eyebrow}</span>
         <h2 className="mb-8 font-serif text-4xl leading-[1.05] text-chinese-black md:text-6xl">
-          Service som
+          {service.headlineLine1}
           <br />
-          <span className="italic text-antique-brass">faktisk fungerer</span>
+          <span className="italic text-antique-brass">{service.headlineLine2}</span>
         </h2>
         <p className="mb-10 max-w-xl leading-relaxed text-chinese-black/80">
-          Når kaffemaskinen stopper, må det løses raskt. Derfor er service det viktigste vi gjør.
+          {service.intro}
         </p>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 sm:gap-10">
-          <div className="flex flex-col gap-3">
-            <ServiceShieldIcon />
-            <h4 className="font-serif text-xl font-medium text-chinese-black">Gratis service</h4>
-            <p className="text-sm leading-relaxed text-chinese-black/65">Alle våre maskiner inkluderer full serviceavtale uten ekstra kostnader.</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <ServicePhoneIcon />
-            <h4 className="font-serif text-xl font-medium text-chinese-black">Rask support</h4>
-            <p className="text-sm leading-relaxed text-chinese-black/65">I de fleste tilfeller løser vi problemet over telefon – raskt og effektivt.</p>
-          </div>
+          {service.cards.map((card, i) => (
+            <div key={card.title} className="flex flex-col gap-3">
+              {serviceCardIcons[i]}
+              <h4 className="font-serif text-xl font-medium text-chinese-black">{card.title}</h4>
+              <p className="text-sm leading-relaxed text-chinese-black/65">{card.text}</p>
+            </div>
+          ))}
         </div>
         <Button href="/#kontakt" className="border border-transparent hover:border-[#3D4245]">
-          Service
+          {service.cta}
         </Button>
       </div>
 
       <div className="flex w-full items-center justify-center md:h-full md:min-h-0">
         <div className="group relative w-full max-w-3xl cursor-pointer overflow-hidden rounded-3xl shadow-xl">
           <img
-            src="/images/om-oss-kaffekopp.jpg"
+            src={service.image.src}
             alt=""
             className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           />
@@ -692,7 +650,7 @@ const ServiceSection = () => (
           </div>
           <div className="absolute bottom-4 right-4 max-w-[240px] rounded-2xl bg-chinese-black/92 px-5 py-4 text-white backdrop-blur-sm">
             <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.2em] text-antique-brass">Se video</span>
-            <span className="text-sm leading-snug text-white">Slik fungerer vår service</span>
+            <span className="text-sm leading-snug text-white">{service.image.videoCaption}</span>
           </div>
         </div>
       </div>
@@ -724,7 +682,7 @@ const GreenSection = () => (
       <div className="order-2 flex min-h-0 gap-3 sm:gap-4 md:order-1">
         <div className="flex min-w-0 flex-1 flex-col gap-3 sm:gap-4">
           <div className="overflow-hidden rounded-3xl shadow-lg aspect-[4/5]">
-            <img src="/images/om-oss-kaffe.jpg" alt="Coffee" className="h-full w-full object-cover" />
+            <img src={omOss.images[0].src} alt={omOss.images[0].alt} className="h-full w-full object-cover" />
           </div>
           <div className="group relative flex aspect-square flex-col justify-end overflow-hidden rounded-3xl bg-antique-brass p-5 shadow-lg transition-colors duration-300 hover:bg-white md:p-6">
             <img
@@ -734,23 +692,23 @@ const GreenSection = () => (
               className="pointer-events-none absolute left-1/2 top-[42%] h-[5.4rem] w-[5.4rem] -translate-x-1/2 -translate-y-1/2 object-contain opacity-100 sm:h-[7.2rem] sm:w-[7.2rem]"
             />
             <span className="relative font-serif text-4xl text-chinese-black transition-transform duration-300 group-hover:scale-105 md:text-5xl">
-              17+
+              {omOss.statYears.value}
             </span>
             <span className="relative mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-chinese-black/85 md:text-xs">
-              Års erfaring
+              {omOss.statYears.label}
             </span>
           </div>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-3 pt-10 sm:gap-4 sm:pt-12 md:pt-14 lg:pt-16">
           <div className="group relative flex aspect-square flex-col justify-end overflow-hidden rounded-3xl bg-dark-jungle p-5 shadow-lg md:p-6">
             <OmOssCoffeeWatermark className={`pointer-events-none absolute right-1 top-1 h-[5.5rem] w-[5.5rem] opacity-10 transition-opacity duration-300 group-hover:opacity-[0.2] sm:right-2 sm:top-2 sm:h-28 sm:w-28 ${ICON_BRASS}`} />
-            <span className="relative font-serif text-3xl text-antique-brass md:text-4xl lg:text-[2.75rem]">70.000</span>
+            <span className="relative font-serif text-3xl text-antique-brass md:text-4xl lg:text-[2.75rem]">{omOss.statCups.value}</span>
             <span className="relative mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/55 md:text-xs">
-              Kopper daglig
+              {omOss.statCups.label}
             </span>
           </div>
           <div className="overflow-hidden rounded-3xl shadow-lg aspect-[4/5]">
-            <img src="/images/om-oss-kaffekopp.jpg" alt="Coffee cup" className="h-full w-full object-cover" />
+            <img src={omOss.images[1].src} alt={omOss.images[1].alt} className="h-full w-full object-cover" />
           </div>
         </div>
       </div>
@@ -762,23 +720,21 @@ const GreenSection = () => (
         viewport={{ once: true }}
         transition={{ duration: 0.55 }}
       >
-        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">Om oss</span>
+        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-antique-brass">{omOss.eyebrow}</span>
         <h2 className="mb-8 font-serif text-4xl leading-tight text-chinese-black md:text-6xl">
-          Erfaring du
+          {omOss.headlineLine1}
           <br />
-          <span className="italic text-antique-brass">kan stole på.</span>
+          <span className="italic text-antique-brass">{omOss.headlineLine2}</span>
         </h2>
         <div className="mb-8 space-y-5 leading-relaxed text-chinese-black/70">
+          <p>{omOss.p1}</p>
           <p>
-            Mr Coffee er et 100 % norskeid selskap med over 17 års erfaring i å levere kaffeløsninger til norske arbeidsplasser.
-          </p>
-          <p>
-            Vi serverer i dag over <span className="font-bold text-chinese-black">70.000 kopper</span> varm drikke hver eneste dag, og har fornøyde kunder over store deler av landet.
+            {omOss.p2Prefix}<span className="font-bold text-chinese-black">{omOss.p2Bold}</span>{omOss.p2Suffix}
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
           <Button href="/#om-oss" className="border border-transparent hover:border-[#3D4245]">
-            Om oss
+            {omOss.cta}
           </Button>
         </div>
       </motion.div>
@@ -789,7 +745,7 @@ const GreenSection = () => (
 const SustainabilitySection = () => (
   <section id="baerekraft" className="relative py-24 md:py-32 overflow-hidden">
     <div className="absolute inset-0 z-0">
-      <img src="/images/baerekraft-bakgrunn_2.jpg" alt="" className="w-full h-full object-cover" />
+      <img src={sustainability.backgroundImageSrc} alt="" className="w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/55 via-[#0f0c0a]/48 to-[#0d0907]/94" />
     </div>
     <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -799,15 +755,15 @@ const SustainabilitySection = () => (
             <img src="/images/miljofyrtarn-sertifisert-virksomhet-vertikal-RGB.svg" alt="Miljøfyrtårn sertifisert" className="w-full h-auto" />
           </div>
           <div className="flex-1 text-center md:text-left">
-            <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Bærekraft</span>
+            <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">{sustainability.eyebrow}</span>
             <h2 className="mb-6 font-serif text-3xl text-white md:text-5xl">
-              Vi tar ansvar for <span className="italic">fremtiden</span>.
+              {sustainability.headlineLine1} <span className="italic">{sustainability.headlineItalic}</span>.
             </h2>
             <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
-              MrCoffee er stolte av å være Miljøfyrtårn-sertifisert. Vi jobber kontinuerlig med å redusere vårt miljøavtrykk gjennom bærekraftige kaffeløsninger, etisk handel og miljøvennlig logistikk.
+              {sustainability.body}
             </p>
             <div className="flex flex-wrap gap-6 justify-center md:justify-start mb-8">
-              {['Etisk handel', 'Gjenbrukbare løsninger', 'CO₂-nøytral frakt'].map((item) => (
+              {sustainability.badges.map((item) => (
                 <span key={item} className={`flex items-center gap-2 text-sm font-medium ${ICON_BRASS}`}>
                   <svg
                     className={`h-4 w-4 shrink-0 ${ICON_BRASS}`}
@@ -831,7 +787,7 @@ const SustainabilitySection = () => (
                 to="/baerekraft"
                 className="inline-flex items-center justify-center rounded-full border border-antique-brass px-8 py-4 text-sm font-semibold uppercase tracking-widest text-antique-brass transition-all duration-300 hover:bg-antique-brass hover:text-chinese-black"
               >
-                Bærekraft
+                {sustainability.cta}
               </Link>
             </div>
           </div>
@@ -847,19 +803,15 @@ export const ContactSection = () => (
       <div className="glass p-10 md:p-16 rounded-[48px] relative overflow-hidden">
         <div className="relative z-10 grid md:grid-cols-2 gap-16">
           <div>
-            <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">Bestilling / Kontakt</span>
+            <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">{contact.eyebrow}</span>
             <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-6">
-              Klar for bedre kaffe<br /><span className="italic font-light">på jobben?</span>
+              {contact.headlineLine1}<br /><span className="italic font-light">{contact.headlineLine2}</span>
             </h2>
             <p className="text-white/60 mb-12 leading-relaxed">
-              Ta kontakt med oss for en løsning tilpasset din bedrift. Det er enkelt å komme i gang, og vi hjelper deg hele veien.
+              {contact.intro}
             </p>
             <div className="space-y-6">
-              {[
-                { icon: 'phone', label: 'Ring oss', value: '64 86 68 00' },
-                { icon: 'mail', label: 'E-post', value: 'post@mrcoffee.no' },
-                { icon: 'map-pin', label: 'Besøk oss', value: 'Gneisveien 2c, 1914 Ytre Enebakk' },
-              ].map((c) => (
+              {contact.details.map((c) => (
                 <div key={c.icon} className="flex items-center gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full glass">
                     <ContactLineIcon name={c.icon} className="h-5 w-5 opacity-90" />
@@ -878,11 +830,11 @@ export const ContactSection = () => (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest text-white/50 ml-1">Navn</label>
-                  <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder="Ditt navn" />
+                  <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder={contact.form.namePlaceholder} />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest text-white/50 ml-1">Bedrift</label>
-                  <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder="Bedriftsnavn" />
+                  <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors" placeholder={contact.form.companyPlaceholder} />
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -891,7 +843,7 @@ export const ContactSection = () => (
                   <input
                     type="email"
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition-colors placeholder:text-white/35 focus:border-antique-brass focus:outline-none"
-                    placeholder="din@epost.no"
+                    placeholder={contact.form.emailPlaceholder}
                     autoComplete="email"
                   />
                 </div>
@@ -900,16 +852,16 @@ export const ContactSection = () => (
                   <input
                     type="tel"
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition-colors placeholder:text-white/35 focus:border-antique-brass focus:outline-none"
-                    placeholder="64 86 68 00"
+                    placeholder={contact.form.phonePlaceholder}
                     autoComplete="tel"
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest text-white/50 ml-1">Melding</label>
-                <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors resize-none" placeholder="Hvordan kan vi hjelpe deg?" />
+                <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-antique-brass transition-colors resize-none" placeholder={contact.form.messagePlaceholder} />
               </div>
-              <Button className="w-full">Send forespørsel</Button>
+              <Button className="w-full">{contact.form.submitLabel}</Button>
             </form>
           </div>
         </div>
@@ -927,10 +879,10 @@ export const Footer = () => (
         alt="MrCoffee"
         className="h-[2.695rem] w-auto max-w-full object-contain"
       />
-      <span className="text-white/30 text-xs uppercase tracking-[0.2em]">© 2026 MrCoffee.no — 100% Norskeid</span>
+      <span className="text-white/30 text-xs uppercase tracking-[0.2em]">{footer.copyright}</span>
       <div className="flex gap-6">
-        {['Facebook', 'Instagram', 'LinkedIn'].map((s) => (
-          <a key={s} href="#" className="text-white/40 hover:text-antique-brass transition-colors text-xs uppercase tracking-widest font-bold">{s}</a>
+        {footer.socials.map((s) => (
+          <a key={s.name} href={s.href} className="text-white/40 hover:text-antique-brass transition-colors text-xs uppercase tracking-widest font-bold">{s.name}</a>
         ))}
       </div>
     </div>

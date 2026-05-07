@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { ContactSection, Footer, Navbar } from './HomePage';
+import { baerekraft } from './content/baerekraft';
 
-const REPORT_URL = 'https://rapportering.miljofyrtarn.no/stats/193455';
+const { sections, signature, reportUrl, policyPdfPath, reportLinkLabel, policyLinkLabel } = baerekraft;
 
 const Section = ({ title, children }: { title: string; children: ReactNode }) => (
   <section className="scroll-mt-28">
@@ -17,7 +18,7 @@ export function BaerekraftPage() {
       <header className="relative w-full">
         <div className="h-[min(44vh,560px)] w-full overflow-hidden md:h-[min(48vh,620px)]">
           <img
-            src="/images/baerekraft-bakgrunn_2.jpg"
+            src={baerekraft.heroImageSrc}
             alt=""
             className="h-full w-full object-cover object-[center_40%]"
           />
@@ -30,67 +31,62 @@ export function BaerekraftPage() {
           <div className="mx-auto flex max-w-4xl flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-center lg:gap-14">
             <div className="w-full min-w-0 max-w-xl space-y-12 md:space-y-14 lg:flex-1">
               <h1 className="text-left font-serif text-4xl leading-tight text-chinese-black md:text-6xl">
-                Bærekraft
+                {baerekraft.pageTitle}
               </h1>
 
-              <Section title="Miljøpolicy">
-                <p>
-                  Mr Coffee AS er en Miljøfyrtårn-sertifisert virksomhet som arbeider systematisk for å redusere vår miljøpåvirkning og bidra til en mer
-                  bærekraftig og sirkulær kaffebransje.
-                </p>
+              <Section title={sections.miljoPolicy.title}>
+                <p>{sections.miljoPolicy.text}</p>
               </Section>
 
-              <Section title="Forpliktelser">
-                <p className="font-medium text-chinese-black">Vi forplikter oss til å:</p>
+              <Section title={sections.forpliktelser.title}>
+                <p className="font-medium text-chinese-black">{sections.forpliktelser.intro}</p>
                 <ul className="list-disc space-y-3 pl-5 marker:text-antique-brass">
-                  <li>Overholde gjeldende miljølovgivning og krav i Miljøfyrtårn-ordningen</li>
-                  <li>Forebygge forurensning og redusere avfall</li>
-                  <li>Jobbe kontinuerlig med forbedring av vår miljøprestasjon</li>
+                  {sections.forpliktelser.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </Section>
 
-              <Section title="Prioriterte områder">
+              <Section title={sections.prioriterteOmrader.title}>
                 <ul className="list-disc space-y-3 pl-5 marker:text-antique-brass">
-                  <li>Gjenbruk og levetidsforlengelse av kaffemaskiner</li>
-                  <li>Reduksjon og forsvarlig håndtering av EE-avfall</li>
-                  <li>Minst 80 % miljøsertifiserte kaffeprodukter</li>
-                  <li>Reduksjon av emballasje</li>
-                  <li>Effektiv logistikk og reduserte utslipp</li>
+                  {sections.prioriterteOmrader.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </Section>
 
-              <Section title="Ansvar og oppfølging">
-                <p>Ledelsen har ansvar for mål og oppfølging.</p>
-                <p>Alle ansatte skal bidra aktivt.</p>
+              <Section title={sections.ansvarOgOppfolging.title}>
+                <p>{sections.ansvarOgOppfolging.p1}</p>
+                <p>{sections.ansvarOgOppfolging.p2}</p>
                 <div className="space-y-6 pt-1">
                   <p className="text-base leading-relaxed text-chinese-black/75">
-                    Vi setter målbare indikatorer og forbedrer oss kontinuerlig i tråd med Miljøfyrtårn.
+                    {sections.ansvarOgOppfolging.p3}
                   </p>
                   <div className="space-y-3">
                     <p>
                       <a
-                        href={REPORT_URL}
+                        href={reportUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold text-antique-brass underline decoration-antique-brass/40 underline-offset-4 transition-colors hover:text-chinese-black hover:decoration-chinese-black/30"
                       >
-                        Se rapport her
+                        {reportLinkLabel}
                       </a>
                     </p>
                     <p>
                       <a
-                        href="/pdf/Miljopolicy.pdf"
+                        href={policyPdfPath}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold text-antique-brass underline decoration-antique-brass/40 underline-offset-4 transition-colors hover:text-chinese-black hover:decoration-chinese-black/30"
                       >
-                        Se miljøpolicy (PDF)
+                        {policyLinkLabel}
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-base leading-relaxed text-chinese-black/75">Ytre Enebakk, 27.03.2026</p>
-                    <p className="text-base font-bold leading-relaxed text-chinese-black/75">Lars Christian Bilet</p>
+                    <p className="text-base leading-relaxed text-chinese-black/75">{signature.date}</p>
+                    <p className="text-base font-bold leading-relaxed text-chinese-black/75">{signature.name}</p>
                   </div>
                 </div>
               </Section>

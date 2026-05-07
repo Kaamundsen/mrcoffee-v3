@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer, Navbar } from './HomePage';
-import { ORDER_PRODUCTS } from './bestillingData';
+import { ORDER_PRODUCTS } from './content/products';
+import { bestilling } from './content/bestilling';
 
 const pageBg = 'bg-[#F8F6EF]';
 const imageWell = 'bg-[#F2F2F2]';
@@ -33,7 +34,7 @@ function ProductThumb({ src, alt, onExpand }: { src: string; alt: string; onExpa
   }
   return (
     <div className={`flex h-[200px] w-[200px] shrink-0 items-center justify-center overflow-hidden ${imageWell}`}>
-      <span className="px-4 text-center font-serif text-sm leading-snug text-chinese-black/35">Bilde kommer</span>
+      <span className="px-4 text-center font-serif text-sm leading-snug text-chinese-black/35">{bestilling.lightbox.placeholderText}</span>
     </div>
   );
 }
@@ -65,9 +66,9 @@ export function BestillingPage() {
       <main className="scroll-mt-28 pb-20 pt-28 md:pb-28 md:pt-32">
         <div className="mx-auto w-full max-w-[900px] px-6">
           <header className="mb-12 text-left md:mb-14">
-            <h1 className="font-serif text-4xl font-semibold tracking-tight text-chinese-black md:text-5xl">Bestilling</h1>
+            <h1 className="font-serif text-4xl font-semibold tracking-tight text-chinese-black md:text-5xl">{bestilling.pageTitle}</h1>
             <p className="mt-4 max-w-xl text-pretty text-sm leading-relaxed text-chinese-black/60 md:text-base">
-              Bestillingsskjema for eksisterende kunder med avtaler.
+              {bestilling.pageDescription}
             </p>
           </header>
 
@@ -103,7 +104,7 @@ export function BestillingPage() {
                     inputMode="numeric"
                     min={0}
                     step={1}
-                    placeholder="Antall"
+                    placeholder={bestilling.form.placeholders.antall}
                     value={quantities[p.id]}
                     onChange={(e) => setQuantities((q) => ({ ...q, [p.id]: e.target.value }))}
                     className={`${inputClass} text-right tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-auto [&::-webkit-outer-spin-button]:appearance-auto`}
@@ -122,32 +123,32 @@ export function BestillingPage() {
             <div className="grid gap-6 md:grid-cols-3">
               <div>
                 <label htmlFor="firmanavn" className={labelClass}>
-                  Firmanavn <span className="text-antique-brass">*</span>
+                  {bestilling.form.labels.firmanavn} <span className="text-antique-brass">*</span>
                 </label>
                 <input id="firmanavn" name="firmanavn" type="text" required autoComplete="organization" className={inputClass} />
               </div>
               <div>
                 <label htmlFor="telefon" className={labelClass}>
-                  Telefon <span className="text-antique-brass">*</span>
+                  {bestilling.form.labels.telefon} <span className="text-antique-brass">*</span>
                 </label>
                 <input id="telefon" name="telefon" type="tel" required autoComplete="tel" className={inputClass} />
               </div>
               <div>
                 <label htmlFor="kontakt" className={labelClass}>
-                  Kontaktperson <span className="text-antique-brass">*</span>
+                  {bestilling.form.labels.kontaktperson} <span className="text-antique-brass">*</span>
                 </label>
                 <input id="kontakt" name="kontakt" type="text" required autoComplete="name" className={inputClass} />
               </div>
             </div>
             <div>
               <label htmlFor="melding" className={labelClass}>
-                Melding
+                {bestilling.form.labels.melding}
               </label>
               <textarea
                 id="melding"
                 name="melding"
                 rows={5}
-                placeholder="Skriv en melding til oss her"
+                placeholder={bestilling.form.placeholders.melding}
                 className={textareaClass}
               />
             </div>
@@ -155,7 +156,7 @@ export function BestillingPage() {
               type="submit"
               className="w-full rounded-full bg-chinese-black px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white transition-colors hover:bg-antique-brass hover:text-chinese-black md:w-auto"
             >
-              Send bestilling
+              {bestilling.form.submitLabel}
             </button>
           </form>
         </div>
@@ -178,9 +179,9 @@ export function BestillingPage() {
               type="button"
               className="absolute -right-1 -top-10 z-10 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:-right-3 sm:-top-3 sm:border-0 sm:bg-white sm:text-chinese-black sm:hover:bg-cream"
               onClick={() => setLightbox(null)}
-              aria-label="Lukk"
+              aria-label={bestilling.lightbox.closeLabel}
             >
-              Lukk
+              {bestilling.lightbox.closeLabel}
             </button>
             <img
               src={lightbox.src}
