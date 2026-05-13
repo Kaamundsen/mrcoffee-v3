@@ -49,7 +49,7 @@ export const quality = {
 export const productsSection = {
   eyebrow: 'Produkter og løsninger',
   headlineLine1: 'Kaffeløsninger tilpasset',
-  headlineLine2: 'din bedrift.',
+  headlineLine2: 'din bedrift',
   body: 'Våre skreddersydde kaffeløsninger passer både små og store virksomheter, med fokus på kvalitet og brukervennlighet. Vi tilpasser løsningen etter deres behov, forbruk og preferanser, slik at dere alltid får kvalitetskaffe – enkelt, effektivt og uten bekymringer.',
   cards: [
     {
