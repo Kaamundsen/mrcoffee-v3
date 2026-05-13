@@ -8,7 +8,7 @@
 export const hero = {
   imageSrc: '/images/Hero-kontor.jpg',
   headlineLine1: 'Gratis kaffemaskin',
-  headlineLine2: 'til kontoret.',
+  headlineLine2: 'til kontoret',
   badges: ['Gratis leie', 'Gratis service', 'Ingen bindingstid'] as const,
   body: 'Vi leverer kaffeløsninger til kontor og bedrifter – uten unødvendige kostnader. Få en god kaffe på jobb uten å binde deg til lange avtaler.',
   ctaPrimary: { label: 'Bestill kaffeløsning', href: '/#kontakt' },
