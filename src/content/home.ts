@@ -133,7 +133,7 @@ export const service = {
 export const omOss = {
   eyebrow: 'Om oss',
   headlineLine1: 'Erfaring du',
-  headlineLine2: 'kan stole på.',
+  headlineLine2: 'kan stole på',
   p1: 'Mr Coffee er et 100 % norskeid selskap med over 17 års erfaring i å levere kaffeløsninger til norske arbeidsplasser.',
   p2Prefix: 'Vi serverer i dag over ',
   p2Bold: '70.000 kopper',
