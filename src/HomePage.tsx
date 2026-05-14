@@ -731,6 +731,7 @@ const GreenSection = () => (
           <p>
             {omOss.p2Prefix}<span className="font-bold text-chinese-black">{omOss.p2Bold}</span>{omOss.p2Suffix}
           </p>
+          <p>{omOss.certification}</p>
         </div>
         <div className="flex flex-wrap gap-4">
           <Button href="/#om-oss" className="border border-transparent hover:border-[#3D4245]">

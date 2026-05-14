@@ -138,6 +138,7 @@ export const omOss = {
   p2Prefix: 'Vi serverer i dag over ',
   p2Bold: '70.000 kopper',
   p2Suffix: ' varm drikke hver eneste dag, og har fornøyde kunder over store deler av landet.',
+  certification: 'Miljøfyrtårn Sertifisert',
   cta: 'Om oss',
   statYears: { value: '17+', label: 'Års erfaring' },
   statCups: { value: '70.000', label: 'Kopper daglig' },
