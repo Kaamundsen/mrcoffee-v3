@@ -880,7 +880,7 @@ export const Footer = () => (
         alt="MrCoffee"
         className="h-[2.695rem] w-auto max-w-full object-contain"
       />
-      <span className="text-white/30 text-xs uppercase tracking-[0.2em]">{footer.copyright}</span>
+      <span className="text-white/30 text-xs uppercase">{footer.copyright}</span>
       <div className="flex gap-6">
         {footer.socials.map((s) => (
           <a key={s.name} href={s.href} className="text-white/40 hover:text-antique-brass transition-colors text-xs uppercase tracking-widest font-bold">{s.name}</a>
