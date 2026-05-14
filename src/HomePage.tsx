@@ -885,7 +885,7 @@ export const Footer = () => (
           <a key={s.name} href={s.href} className="text-white/40 hover:text-antique-brass transition-colors text-xs uppercase tracking-widest font-bold">{s.name}</a>
         ))}
       </div>
-      <span className="order-3 md:order-2 text-white/30 text-xs uppercase tracking-normal">
+      <span className="order-3 md:order-2 text-white/30 text-xs uppercase tracking-normal text-center max-w-[15rem] sm:max-w-none">
         {footer.copyright}{' '}
         <a href={footer.copyrightLink.href} target="_blank" rel="noopener noreferrer" className="hover:text-antique-brass transition-colors">{footer.copyrightLink.text}</a>
       </span>
