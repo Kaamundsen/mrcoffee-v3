@@ -49,7 +49,7 @@ export const quality = {
 export const productsSection = {
   eyebrow: 'Produkter og løsninger',
   headlineLine1: 'Kaffeløsninger tilpasset',
-  headlineLine2: 'din bedrift.',
+  headlineLine2: 'din bedrift',
   body: 'Våre skreddersydde kaffeløsninger passer både små og store virksomheter, med fokus på kvalitet og brukervennlighet. Vi tilpasser løsningen etter deres behov, forbruk og preferanser, slik at dere alltid får kvalitetskaffe – enkelt, effektivt og uten bekymringer.',
   cards: [
     {
@@ -133,11 +133,12 @@ export const service = {
 export const omOss = {
   eyebrow: 'Om oss',
   headlineLine1: 'Erfaring du',
-  headlineLine2: 'kan stole på.',
+  headlineLine2: 'kan stole på',
   p1: 'Mr Coffee er et 100 % norskeid selskap med over 17 års erfaring i å levere kaffeløsninger til norske arbeidsplasser.',
   p2Prefix: 'Vi serverer i dag over ',
   p2Bold: '70.000 kopper',
   p2Suffix: ' varm drikke hver eneste dag, og har fornøyde kunder over store deler av landet.',
+  p3: 'Miljøfyrtårn sertifisert',
   cta: 'Om oss',
   statYears: { value: '17+', label: 'Års erfaring' },
   statCups: { value: '70.000', label: 'Kopper daglig' },
