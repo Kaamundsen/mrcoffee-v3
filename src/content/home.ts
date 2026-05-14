@@ -185,7 +185,8 @@ export const contact = {
 // --- Footer ---
 
 export const footer = {
-  copyright: '© 2026 MrCoffee.no — Design og utvikling av Bonefish.no',
+  copyright: '© 2026 MrCoffee.no — Design og utvikling av',
+  copyrightLink: { text: 'Bonefish.no', href: 'https://bonefish.no' },
   socials: [
     { name: 'Facebook', href: '#' },
     { name: 'Instagram', href: '#' },
