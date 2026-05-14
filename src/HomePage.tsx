@@ -880,15 +880,15 @@ export const Footer = () => (
         alt="MrCoffee"
         className="h-[2.695rem] w-auto max-w-full object-contain"
       />
-      <span className="text-white/30 text-xs uppercase tracking-normal">
-        {footer.copyright}{' '}
-        <a href={footer.copyrightLink.href} target="_blank" rel="noopener noreferrer" className="hover:text-antique-brass transition-colors">{footer.copyrightLink.text}</a>
-      </span>
-      <div className="flex gap-6">
+      <div className="order-2 md:order-3 flex gap-6">
         {footer.socials.map((s) => (
           <a key={s.name} href={s.href} className="text-white/40 hover:text-antique-brass transition-colors text-xs uppercase tracking-widest font-bold">{s.name}</a>
         ))}
       </div>
+      <span className="order-3 md:order-2 text-white/30 text-xs uppercase tracking-normal">
+        {footer.copyright}{' '}
+        <a href={footer.copyrightLink.href} target="_blank" rel="noopener noreferrer" className="hover:text-antique-brass transition-colors">{footer.copyrightLink.text}</a>
+      </span>
     </div>
   </footer>
 );
