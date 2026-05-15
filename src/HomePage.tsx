@@ -758,7 +758,7 @@ const SustainabilitySection = () => (
           <div className="flex-1 text-center md:text-left">
             <span className="text-antique-brass uppercase tracking-[0.3em] text-xs font-semibold block mb-4">{sustainability.eyebrow}</span>
             <h2 className="mb-6 font-serif text-3xl text-white md:text-5xl">
-              {sustainability.headlineLine1} <span className="italic">{sustainability.headlineItalic}</span>.
+              {sustainability.headlineLine1} <span className="italic">{sustainability.headlineItalic}</span>
             </h2>
             <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
               {sustainability.body}
